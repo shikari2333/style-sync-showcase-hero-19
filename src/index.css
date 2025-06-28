@@ -1,3 +1,4 @@
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -100,6 +101,24 @@
   body {
     @apply bg-background text-foreground;
   }
+
+  /* Enhanced smooth scrolling and hardware acceleration */
+  html {
+    scroll-behavior: smooth;
+  }
+  
+  * {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+  
+  .transform-gpu {
+    transform: translate3d(0, 0, 0);
+  }
+  
+  .perspective-1000 {
+    perspective: 1000px;
+  }
 }
 
 /* Custom responsive classes for model carousel */
@@ -118,5 +137,73 @@
   
   .hero-subtext-responsive {
     @apply text-lg md:text-xl;
+  }
+
+  /* Enhanced smooth transitions for carousel cards */
+  .carousel-card-transition {
+    transition: all 800ms cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    will-change: transform, opacity, filter;
+  }
+  
+  .carousel-card-hover {
+    transition: all 500ms cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+  
+  /* Smooth background color transitions */
+  .bg-transition-smooth {
+    transition: background-color 1200ms cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  }
+  
+  /* Enhanced glow effects */
+  .glow-effect {
+    filter: drop-shadow(0 0 20px rgba(255, 255, 255, 0.1));
+    transition: filter 600ms ease-out;
+  }
+  
+  .glow-effect:hover {
+    filter: drop-shadow(0 0 30px rgba(255, 255, 255, 0.2));
+  }
+}
+
+/* Enhanced keyframe animations */
+@layer utilities {
+  @keyframes smoothFloat {
+    0%, 100% { 
+      transform: translateY(0px) rotate(0deg); 
+      opacity: 0.6;
+    }
+    50% { 
+      transform: translateY(-10px) rotate(180deg); 
+      opacity: 1;
+    }
+  }
+  
+  @keyframes cardSlide {
+    0% {
+      transform: translateX(100px) scale(0.8);
+      opacity: 0;
+    }
+    100% {
+      transform: translateX(0) scale(1);
+      opacity: 1;
+    }
+  }
+  
+  @keyframes backgroundShift {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+  }
+  
+  .animate-smooth-float {
+    animation: smoothFloat 4s ease-in-out infinite;
+  }
+  
+  .animate-card-slide {
+    animation: cardSlide 800ms cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+  }
+  
+  .animate-bg-shift {
+    animation: backgroundShift 10s ease-in-out infinite;
   }
 }

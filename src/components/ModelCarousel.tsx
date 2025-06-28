@@ -120,62 +120,129 @@ const ModelCarousel: React.FC<ModelCarouselProps> = ({ currentState, onCardClick
 
   const currentCollection = collectionImages[currentState];
 
+  const getCardScale = (index: number) => {
+    switch (index) {
+      case 0: return 'scale-75 opacity-60';
+      case 1: return 'scale-90 opacity-80';
+      case 2: return 'scale-110 opacity-100 z-20';
+      case 3: return 'scale-90 opacity-80';
+      case 4: return 'scale-75 opacity-60';
+      default: return 'scale-75 opacity-60';
+    }
+  };
+
+  const getCardTransform = (index: number) => {
+    switch (index) {
+      case 0: return '-translate-y-8 -translate-x-4';
+      case 1: return '-translate-y-4 -translate-x-2';
+      case 2: return 'translate-y-4';
+      case 3: return '-translate-y-4 translate-x-2';
+      case 4: return '-translate-y-8 translate-x-4';
+      default: return '-translate-y-8';
+    }
+  };
+
   return (
-    <div className="relative w-full h-96 overflow-visible">
-      {/* Model Display */}
-      <div className="flex items-end justify-center h-full space-x-6 px-8">
+    <div className="relative w-full h-96 overflow-visible perspective-1000">
+      {/* Enhanced Model Display with Smooth Transitions */}
+      <div className="flex items-end justify-center h-full space-x-8 px-8">
         {currentCollection.models.map((model, index) => {
           const isCenter = index === 2;
-          const cardIndex = Math.floor(currentState * 5 / collectionImages.length) + index;
           
           return (
             <div
               key={`${currentCollection.id}-${model.id}`}
-              className={`relative transition-all duration-700 ease-in-out cursor-pointer group ${
-                index === 0 ? 'transform scale-75 -translate-y-4' :
-                index === 1 ? 'transform scale-85 -translate-y-2' :
-                index === 2 ? 'transform scale-110 translate-y-2 z-10' :
-                index === 3 ? 'transform scale-85 -translate-y-2' :
-                'transform scale-75 -translate-y-4'
-              } hover:scale-110 hover:translate-y-2`}
+              className={`
+                relative cursor-pointer group transition-all duration-[800ms] ease-[cubic-bezier(0.25,0.46,0.45,0.94)]
+                ${getCardScale(index)} ${getCardTransform(index)}
+                hover:scale-[1.15] hover:translate-y-6 hover:z-30
+                transform-gpu will-change-transform
+              `}
               style={{
-                transitionDelay: `${index * 100}ms`
+                transitionDelay: `${index * 120}ms`,
+                filter: isCenter ? 'drop-shadow(0 25px 50px rgba(0,0,0,0.3))' : 'drop-shadow(0 10px 25px rgba(0,0,0,0.15))'
               }}
               onClick={() => onCardClick(index % collectionImages.length)}
             >
-              {/* Model Frame with Exact Shape from Reference */}
+              {/* Enhanced Model Frame */}
               <div className="relative">
                 <div 
-                  className={`w-32 h-80 ${model.bgColor} shadow-2xl overflow-hidden transition-all duration-700 group-hover:shadow-3xl`}
+                  className={`
+                    w-32 h-80 ${model.bgColor} overflow-hidden
+                    transition-all duration-[800ms] ease-[cubic-bezier(0.25,0.46,0.45,0.94)]
+                    group-hover:shadow-[0_35px_70px_rgba(0,0,0,0.4)]
+                    transform-gpu will-change-transform
+                  `}
                   style={{
                     borderRadius: '50% 50% 25px 25px',
-                    clipPath: 'ellipse(50% 60% at 50% 40%)'
+                    clipPath: 'ellipse(50% 60% at 50% 40%)',
+                    boxShadow: isCenter 
+                      ? '0 25px 50px rgba(0,0,0,0.25), 0 0 0 1px rgba(255,255,255,0.1)' 
+                      : '0 15px 30px rgba(0,0,0,0.15)'
                   }}
                 >
-                  {/* Actual Model Image */}
+                  {/* Model Image with Enhanced Transitions */}
                   <img 
                     src={model.image} 
                     alt={model.name}
-                    className="w-full h-full object-cover object-top transition-all duration-500 group-hover:scale-105"
+                    className="
+                      w-full h-full object-cover object-top 
+                      transition-all duration-[600ms] ease-[cubic-bezier(0.25,0.46,0.45,0.94)]
+                      group-hover:scale-110 group-hover:brightness-110
+                      transform-gpu will-change-transform
+                    "
                     loading="lazy"
                   />
                   
-                  {/* Hover Overlay */}
-                  <div className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end justify-center pb-4">
-                    <div className="text-white text-xs font-medium text-center px-2">
-                      <div className="font-semibold">{model.name}</div>
+                  {/* Enhanced Hover Overlay with Gradient */}
+                  <div className="
+                    absolute inset-0 
+                    bg-gradient-to-t from-black/40 via-transparent to-transparent
+                    opacity-0 group-hover:opacity-100 
+                    transition-all duration-[400ms] ease-out
+                    flex items-end justify-center pb-6
+                  ">
+                    <div className="
+                      text-white text-sm font-semibold text-center px-3
+                      transform translate-y-4 group-hover:translate-y-0
+                      transition-transform duration-[400ms] ease-out delay-100
+                    ">
+                      <div className="font-bold tracking-wide drop-shadow-lg">
+                        {model.name}
+                      </div>
                     </div>
                   </div>
+
+                  {/* Subtle Border Glow for Center Card */}
+                  {isCenter && (
+                    <div className="
+                      absolute inset-0 rounded-[inherit]
+                      bg-gradient-to-r from-white/10 via-white/5 to-white/10
+                      opacity-60 pointer-events-none
+                      transition-opacity duration-[800ms]
+                    " />
+                  )}
                 </div>
                 
-                {/* Enhanced Shadow for Center Card */}
-                {isCenter && (
-                  <div className="absolute -bottom-4 left-1/2 -translate-x-1/2 w-24 h-6 bg-black/30 rounded-full blur-lg transition-all duration-700"></div>
-                )}
+                {/* Enhanced Shadows with Better Blending */}
+                <div 
+                  className={`
+                    absolute -bottom-6 left-1/2 -translate-x-1/2 rounded-full blur-xl
+                    transition-all duration-[800ms] ease-[cubic-bezier(0.25,0.46,0.45,0.94)]
+                    ${isCenter 
+                      ? 'w-28 h-8 bg-black/40' 
+                      : 'w-20 h-6 bg-black/25'
+                    }
+                  `}
+                />
                 
-                {/* Regular Shadow */}
-                {!isCenter && (
-                  <div className="absolute -bottom-2 left-1/2 -translate-x-1/2 w-16 h-3 bg-black/20 rounded-full blur-sm transition-all duration-700"></div>
+                {/* Additional ambient shadow for center card */}
+                {isCenter && (
+                  <div className="
+                    absolute -bottom-2 left-1/2 -translate-x-1/2 
+                    w-32 h-4 bg-black/15 rounded-full blur-lg
+                    transition-all duration-[800ms]
+                  " />
                 )}
               </div>
             </div>
@@ -183,15 +250,39 @@ const ModelCarousel: React.FC<ModelCarouselProps> = ({ currentState, onCardClick
         })}
       </div>
 
-      {/* Collection Indicator Dots */}
-      <div className="absolute bottom-0 left-1/2 -translate-x-1/2 flex space-x-2">
+      {/* Enhanced Collection Indicator Dots */}
+      <div className="absolute -bottom-8 left-1/2 -translate-x-1/2 flex space-x-3">
         {collectionImages.map((_, index) => (
           <button
             key={index}
             onClick={() => onCardClick(index)}
-            className={`w-2 h-2 rounded-full transition-all duration-300 ${
-              index === currentState ? 'bg-white w-6' : 'bg-white/40'
-            }`}
+            className={`
+              h-3 rounded-full transition-all duration-[600ms] ease-[cubic-bezier(0.25,0.46,0.45,0.94)]
+              hover:scale-125 transform-gpu will-change-transform
+              ${index === currentState 
+                ? 'bg-white w-8 shadow-lg shadow-white/30' 
+                : 'bg-white/50 w-3 hover:bg-white/70'
+              }
+            `}
+          />
+        ))}
+      </div>
+
+      {/* Floating Animation Elements */}
+      <div className="absolute inset-0 pointer-events-none">
+        {[...Array(6)].map((_, i) => (
+          <div
+            key={i}
+            className="
+              absolute w-2 h-2 bg-white/20 rounded-full
+              animate-pulse
+            "
+            style={{
+              left: `${20 + i * 15}%`,
+              top: `${30 + (i % 3) * 20}%`,
+              animationDelay: `${i * 800}ms`,
+              animationDuration: '3s'
+            }}
           />
         ))}
       </div>
