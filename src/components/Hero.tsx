@@ -1,5 +1,5 @@
 
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { ArrowRight } from 'lucide-react';
 import ModelCarousel from './ModelCarousel';
 
@@ -10,21 +10,21 @@ const Hero = () => {
     {
       id: 1,
       name: "New Spring Collection",
-      backgroundColor: "#1F1F1F",
+      backgroundColor: "#4A6741", // Green tone from reference
       bannerText: "New spring collection 2025",
       ctaText: "New Collection"
     },
     {
       id: 2,
       name: "OTTO Collection", 
-      backgroundColor: "#4A3C5C",
+      backgroundColor: "#4A5A6A", // Blue-grey tone from reference
       bannerText: "New spring collection 2025",
       ctaText: "OTTO"
     },
     {
       id: 3,
       name: "Cover Story Collection",
-      backgroundColor: "#2A4D4A", 
+      backgroundColor: "#8B6F47", // Brown tone from reference
       bannerText: "New spring collection 2025",
       ctaText: "SEXY ON THE COVER"
     }
@@ -32,20 +32,8 @@ const Hero = () => {
 
   const currentCollection = collectionStates[currentState];
 
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setCurrentState((prev) => (prev + 1) % collectionStates.length);
-    }, 4000);
-
-    return () => clearInterval(interval);
-  }, []);
-
-  const nextState = () => {
-    setCurrentState((prev) => (prev + 1) % collectionStates.length);
-  };
-
-  const prevState = () => {
-    setCurrentState((prev) => (prev - 1 + collectionStates.length) % collectionStates.length);
+  const handleCardClick = (index) => {
+    setCurrentState(index);
   };
 
   return (
@@ -58,9 +46,9 @@ const Hero = () => {
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(255,255,255,0.1)_1px,transparent_1px)] bg-[length:50px_50px]"></div>
       </div>
 
-      <div className="relative z-10 max-w-7xl mx-auto px-6 py-20">
+      <div className="relative z-10 max-w-7xl mx-auto px-6 py-12">
         {/* Top Banner */}
-        <div className="flex justify-center mb-12">
+        <div className="flex justify-center mb-8">
           <div className="bg-gray-800/60 backdrop-blur-sm border border-gray-700 rounded-full px-6 py-3">
             <span className="text-white text-sm font-medium transition-opacity duration-300">
               {currentCollection.bannerText}
@@ -69,8 +57,8 @@ const Hero = () => {
         </div>
 
         {/* Main Content */}
-        <div className="text-center max-w-5xl mx-auto mb-16">
-          <h1 className="text-5xl md:text-7xl font-black text-white leading-tight mb-8 tracking-tight">
+        <div className="text-center max-w-4xl mx-auto mb-12">
+          <h1 className="text-4xl md:text-6xl font-black text-white leading-tight mb-8 tracking-tight">
             Where style meets{' '}
             <span className="bg-gradient-to-r from-white to-gray-300 bg-clip-text text-transparent">
               innovative ways
@@ -78,13 +66,13 @@ const Hero = () => {
             of meeting new fashion
           </h1>
           
-          <p className="text-xl text-gray-300 leading-relaxed mb-12 max-w-3xl mx-auto">
+          <p className="text-lg text-gray-300 leading-relaxed mb-8 max-w-2xl mx-auto">
             Unveiling a fashion destination where trends blend seamlessly with your 
             individual style aspirations. Discover today!
           </p>
 
           {/* CTA Button */}
-          <div className="flex justify-center">
+          <div className="flex justify-center mb-12">
             <button className="group relative bg-gray-800/80 hover:bg-gray-700/80 border border-gray-600 hover:border-gray-500 text-white px-8 py-4 rounded-full font-semibold text-lg transition-all duration-300 hover:scale-105 hover:shadow-2xl backdrop-blur-sm">
               <span className="flex items-center space-x-3">
                 <span className="transition-opacity duration-300">
@@ -99,18 +87,17 @@ const Hero = () => {
           </div>
         </div>
 
-        {/* Product Carousel */}
+        {/* Product Carousel - Integrated in Hero */}
         <div className="relative">
           <ModelCarousel 
             currentState={currentState}
-            onNext={nextState}
-            onPrev={prevState}
+            onCardClick={handleCardClick}
           />
         </div>
       </div>
 
       {/* Bottom Gradient Overlay */}
-      <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-black/30 to-transparent"></div>
+      <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-black/20 to-transparent"></div>
     </div>
   );
 };
