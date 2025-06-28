@@ -17,37 +17,37 @@ const ModelCarousel: React.FC<ModelCarouselProps> = ({ currentState, onNext, onP
         { 
           id: 1, 
           name: "Casual Elegance", 
-          color: "bg-gradient-to-b from-orange-200 to-orange-400", 
+          image: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=400&h=600&fit=crop&crop=face",
           position: "transform scale-90 -translate-x-4",
-          description: "White t-shirt with dark brown V-neck sweater"
+          bgColor: "bg-orange-200"
         },
         { 
           id: 2, 
           name: "Urban Comfort", 
-          color: "bg-gradient-to-b from-amber-200 to-amber-500", 
+          image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=600&fit=crop&crop=face",
           position: "transform scale-95 -translate-x-2",
-          description: "Dark brown oversized shirt and trousers"
+          bgColor: "bg-amber-200"
         },
         { 
           id: 3, 
           name: "Street Style", 
-          color: "bg-gradient-to-b from-gray-200 to-gray-400", 
+          image: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=400&h=600&fit=crop&crop=face",
           position: "transform scale-105 z-10",
-          description: "Grey patterned sweater with light blue jeans"
+          bgColor: "bg-gray-200"
         },
         { 
           id: 4, 
           name: "Modern Formal", 
-          color: "bg-gradient-to-b from-stone-200 to-stone-400", 
+          image: "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=400&h=600&fit=crop&crop=face",
           position: "transform scale-95 translate-x-2",
-          description: "Dark charcoal oversized suit jacket"
+          bgColor: "bg-stone-200"
         },
         { 
           id: 5, 
           name: "Edgy Leather", 
-          color: "bg-gradient-to-b from-slate-200 to-slate-500", 
+          image: "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=400&h=600&fit=crop&crop=face",
           position: "transform scale-90 translate-x-4",
-          description: "Black leather jacket with high collar"
+          bgColor: "bg-slate-200"
         }
       ]
     },
@@ -58,37 +58,37 @@ const ModelCarousel: React.FC<ModelCarouselProps> = ({ currentState, onNext, onP
         { 
           id: 6, 
           name: "Minimalist Chic", 
-          color: "bg-gradient-to-b from-purple-200 to-purple-400", 
+          image: "https://images.unsplash.com/photo-1566492031773-4f4e44671d66?w=400&h=600&fit=crop&crop=face",
           position: "transform scale-90 -translate-x-4",
-          description: "Clean white shirt with tailored trousers"
+          bgColor: "bg-purple-200"
         },
         { 
           id: 7, 
           name: "Smart Casual", 
-          color: "bg-gradient-to-b from-indigo-200 to-indigo-400", 
+          image: "https://images.unsplash.com/photo-1564564321837-a57b7070ac4f?w=400&h=600&fit=crop&crop=face",
           position: "transform scale-95 -translate-x-2",
-          description: "Navy blazer with light knit sweater"
+          bgColor: "bg-indigo-200"
         },
         { 
           id: 8, 
           name: "Contemporary", 
-          color: "bg-gradient-to-b from-violet-200 to-violet-400", 
+          image: "https://images.unsplash.com/photo-1552374196-c4e7ffc6e126?w=400&h=600&fit=crop&crop=face",
           position: "transform scale-105 z-10",
-          description: "Structured coat with slim-fit jeans"
+          bgColor: "bg-violet-200"
         },
         { 
           id: 9, 
           name: "Urban Edge", 
-          color: "bg-gradient-to-b from-blue-200 to-blue-400", 
+          image: "https://images.unsplash.com/photo-1507591064344-4c6ce005b128?w=400&h=600&fit=crop&crop=face",
           position: "transform scale-95 translate-x-2",
-          description: "Textured hoodie with cargo pants"
+          bgColor: "bg-blue-200"
         },
         { 
           id: 10, 
           name: "Refined Casual", 
-          color: "bg-gradient-to-b from-cyan-200 to-cyan-400", 
+          image: "https://images.unsplash.com/photo-1558203728-00f45181dd84?w=400&h=600&fit=crop&crop=face",
           position: "transform scale-90 translate-x-4",
-          description: "Button-down shirt with chino pants"
+          bgColor: "bg-cyan-200"
         }
       ]
     },
@@ -99,37 +99,37 @@ const ModelCarousel: React.FC<ModelCarouselProps> = ({ currentState, onNext, onP
         { 
           id: 11, 
           name: "Bold Statement", 
-          color: "bg-gradient-to-b from-red-200 to-red-400", 
+          image: "https://images.unsplash.com/photo-1521119989659-a83eee488004?w=400&h=600&fit=crop&crop=face",
           position: "transform scale-90 -translate-x-4",
-          description: "Dramatic black evening jacket"
+          bgColor: "bg-red-200"
         },
         { 
           id: 12, 
           name: "Sleek Formal", 
-          color: "bg-gradient-to-b from-pink-200 to-pink-400", 
+          image: "https://images.unsplash.com/photo-1541271696563-3be2bb6c0d9e?w=400&h=600&fit=crop&crop=face",
           position: "transform scale-95 -translate-x-2",
-          description: "Fitted blazer with statement accessories"
+          bgColor: "bg-pink-200"
         },
         { 
           id: 13, 
           name: "Cover Ready", 
-          color: "bg-gradient-to-b from-rose-200 to-rose-400", 
+          image: "https://images.unsplash.com/photo-1492562080023-ab3db95bfbce?w=400&h=600&fit=crop&crop=face",
           position: "transform scale-105 z-10",
-          description: "Luxurious velvet suit with bold styling"
+          bgColor: "bg-rose-200"
         },
         { 
           id: 14, 
           name: "Night Out", 
-          color: "bg-gradient-to-b from-emerald-200 to-emerald-400", 
+          image: "https://images.unsplash.com/photo-1517841905240-472988babdf9?w=400&h=600&fit=crop&crop=face",
           position: "transform scale-95 translate-x-2",
-          description: "Edgy leather ensemble with metal details"
+          bgColor: "bg-emerald-200"
         },
         { 
           id: 15, 
           name: "Avant-garde", 
-          color: "bg-gradient-to-b from-teal-200 to-teal-400", 
+          image: "https://images.unsplash.com/photo-1463453091185-61582044d556?w=400&h=600&fit=crop&crop=face",
           position: "transform scale-90 translate-x-4",
-          description: "Experimental silhouette with bold patterns"
+          bgColor: "bg-teal-200"
         }
       ]
     }
@@ -167,7 +167,7 @@ const ModelCarousel: React.FC<ModelCarouselProps> = ({ currentState, onNext, onP
             {/* Model Frame with Unique Border Radius */}
             <div className="relative">
               <div 
-                className={`w-32 h-72 ${model.color} shadow-2xl overflow-hidden transition-all duration-1000`}
+                className={`w-32 h-72 ${model.bgColor} shadow-2xl overflow-hidden transition-all duration-1000`}
                 style={{
                   borderTopLeftRadius: '50%',
                   borderTopRightRadius: '50%',
@@ -175,26 +175,18 @@ const ModelCarousel: React.FC<ModelCarouselProps> = ({ currentState, onNext, onP
                   borderBottomRightRadius: '20px'
                 }}
               >
-                {/* Simulated Model Figure */}
-                <div className="absolute inset-0 flex flex-col items-center justify-end p-4">
-                  {/* Head */}
-                  <div className="w-8 h-8 bg-gray-800 rounded-full mb-2 transition-all duration-500"></div>
-                  
-                  {/* Body */}
-                  <div className="w-12 h-20 bg-gray-700 rounded-lg mb-2 transition-all duration-500"></div>
-                  
-                  {/* Legs */}
-                  <div className="flex space-x-1">
-                    <div className="w-4 h-16 bg-gray-600 rounded-lg transition-all duration-500"></div>
-                    <div className="w-4 h-16 bg-gray-600 rounded-lg transition-all duration-500"></div>
-                  </div>
-                </div>
+                {/* Actual Model Image */}
+                <img 
+                  src={model.image} 
+                  alt={model.name}
+                  className="w-full h-full object-cover object-center transition-all duration-500"
+                  loading="lazy"
+                />
                 
                 {/* Hover Overlay */}
                 <div className="absolute inset-0 bg-black/30 opacity-0 hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
                   <div className="text-white text-xs font-medium text-center px-2">
                     <div className="font-semibold mb-1">{model.name}</div>
-                    <div className="text-[10px] opacity-90">{model.description}</div>
                   </div>
                 </div>
               </div>
