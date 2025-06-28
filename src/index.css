@@ -101,3 +101,22 @@
     @apply bg-background text-foreground;
   }
 }
+
+/* Custom responsive classes for model carousel */
+@layer components {
+  .model-carousel-mobile {
+    @apply md:space-x-4 space-x-2;
+  }
+  
+  .model-frame-mobile {
+    @apply md:w-32 md:h-72 w-20 h-48;
+  }
+  
+  .hero-text-responsive {
+    @apply text-3xl md:text-5xl lg:text-7xl;
+  }
+  
+  .hero-subtext-responsive {
+    @apply text-lg md:text-xl;
+  }
+}
