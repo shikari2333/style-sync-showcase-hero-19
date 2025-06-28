@@ -119,168 +119,202 @@ const ModelCarousel: React.FC<ModelCarouselProps> = ({ currentState, onCardClick
   ];
 
   const currentCollection = collectionImages[currentState];
+  const [activeCardIndex, setActiveCardIndex] = React.useState(2); // Center card is active by default
 
-  const getCardScale = (index: number) => {
-    switch (index) {
-      case 0: return 'scale-75 opacity-60';
-      case 1: return 'scale-90 opacity-80';
-      case 2: return 'scale-110 opacity-100 z-20';
-      case 3: return 'scale-90 opacity-80';
-      case 4: return 'scale-75 opacity-60';
-      default: return 'scale-75 opacity-60';
-    }
+  const handleCardClick = (cardIndex: number) => {
+    setActiveCardIndex(cardIndex);
+    // Optional: Also trigger collection change if needed
+    // onCardClick(currentState);
   };
 
-  const getCardTransform = (index: number) => {
-    switch (index) {
-      case 0: return '-translate-y-8 -translate-x-4';
-      case 1: return '-translate-y-4 -translate-x-2';
-      case 2: return 'translate-y-4';
-      case 3: return '-translate-y-4 translate-x-2';
-      case 4: return '-translate-y-8 translate-x-4';
-      default: return '-translate-y-8';
+  const getCardStyles = (index: number) => {
+    const distance = Math.abs(index - activeCardIndex);
+    const direction = index - activeCardIndex;
+    
+    // Base styles for all cards
+    let scale = 0.7;
+    let opacity = 0.4;
+    let translateX = 0;
+    let translateY = 0;
+    let zIndex = 1;
+    let blur = 'blur(2px)';
+    
+    // Active center card
+    if (index === activeCardIndex) {
+      scale = 1.1;
+      opacity = 1;
+      translateY = -20;
+      zIndex = 20;
+      blur = 'blur(0px)';
     }
+    // Adjacent cards (immediate left and right)
+    else if (distance === 1) {
+      scale = 0.9;
+      opacity = 0.8;
+      translateX = direction * 30;
+      translateY = -10;
+      zIndex = 15;
+      blur = 'blur(1px)';
+    }
+    // Second tier cards
+    else if (distance === 2) {
+      scale = 0.75;
+      opacity = 0.6;
+      translateX = direction * 50;
+      translateY = 0;
+      zIndex = 10;
+      blur = 'blur(1.5px)';
+    }
+    // Far cards
+    else {
+      scale = 0.6;
+      opacity = 0.3;
+      translateX = direction * 70;
+      translateY = 10;
+      zIndex = 5;
+      blur = 'blur(2px)';
+    }
+
+    return {
+      transform: `translate(${translateX}px, ${translateY}px) scale(${scale})`,
+      opacity,
+      zIndex,
+      filter: blur,
+      transition: 'all 0.8s cubic-bezier(0.4, 0.0, 0.2, 1)'
+    };
   };
 
   return (
     <div className="relative w-full h-96 overflow-visible perspective-1000">
-      {/* Enhanced Model Display with Smooth Transitions */}
-      <div className="flex items-end justify-center h-full space-x-8 px-8">
+      {/* Card Container */}
+      <div className="flex items-center justify-center h-full relative">
         {currentCollection.models.map((model, index) => {
-          const isCenter = index === 2;
+          const cardStyles = getCardStyles(index);
+          const isActive = index === activeCardIndex;
           
           return (
             <div
               key={`${currentCollection.id}-${model.id}`}
-              className={`
-                relative cursor-pointer group transition-all duration-[800ms] ease-[cubic-bezier(0.25,0.46,0.45,0.94)]
-                ${getCardScale(index)} ${getCardTransform(index)}
-                hover:scale-[1.15] hover:translate-y-6 hover:z-30
-                transform-gpu will-change-transform
-              `}
-              style={{
-                transitionDelay: `${index * 120}ms`,
-                filter: isCenter ? 'drop-shadow(0 25px 50px rgba(0,0,0,0.3))' : 'drop-shadow(0 10px 25px rgba(0,0,0,0.15))'
-              }}
-              onClick={() => onCardClick(index % collectionImages.length)}
+              className="absolute cursor-pointer group"
+              style={cardStyles}
+              onClick={() => handleCardClick(index)}
             >
-              {/* Enhanced Model Frame */}
+              {/* Card Container */}
               <div className="relative">
+                {/* Main Card */}
                 <div 
                   className={`
-                    w-32 h-80 ${model.bgColor} overflow-hidden
-                    transition-all duration-[800ms] ease-[cubic-bezier(0.25,0.46,0.45,0.94)]
-                    group-hover:shadow-[0_35px_70px_rgba(0,0,0,0.4)]
-                    transform-gpu will-change-transform
+                    w-36 h-80 ${model.bgColor} overflow-hidden relative
+                    rounded-3xl shadow-2xl
+                    transition-all duration-800 ease-out
+                    group-hover:shadow-[0_40px_80px_rgba(0,0,0,0.3)]
+                    ${isActive ? 'ring-4 ring-white/30' : ''}
                   `}
-                  style={{
-                    borderRadius: '50% 50% 25px 25px',
-                    clipPath: 'ellipse(50% 60% at 50% 40%)',
-                    boxShadow: isCenter 
-                      ? '0 25px 50px rgba(0,0,0,0.25), 0 0 0 1px rgba(255,255,255,0.1)' 
-                      : '0 15px 30px rgba(0,0,0,0.15)'
-                  }}
                 >
-                  {/* Model Image with Enhanced Transitions */}
+                  {/* Model Image */}
                   <img 
                     src={model.image} 
                     alt={model.name}
                     className="
                       w-full h-full object-cover object-top 
-                      transition-all duration-[600ms] ease-[cubic-bezier(0.25,0.46,0.45,0.94)]
-                      group-hover:scale-110 group-hover:brightness-110
-                      transform-gpu will-change-transform
+                      transition-all duration-600 ease-out
+                      group-hover:scale-105
                     "
                     loading="lazy"
                   />
                   
-                  {/* Enhanced Hover Overlay with Gradient */}
+                  {/* Gradient Overlay */}
                   <div className="
                     absolute inset-0 
-                    bg-gradient-to-t from-black/40 via-transparent to-transparent
-                    opacity-0 group-hover:opacity-100 
-                    transition-all duration-[400ms] ease-out
-                    flex items-end justify-center pb-6
-                  ">
+                    bg-gradient-to-t from-black/50 via-transparent to-transparent
+                    opacity-60 group-hover:opacity-80 
+                    transition-opacity duration-400
+                  "/>
+                  
+                  {/* Card Content */}
+                  <div className="absolute bottom-0 left-0 right-0 p-4 text-center">
                     <div className="
-                      text-white text-sm font-semibold text-center px-3
-                      transform translate-y-4 group-hover:translate-y-0
-                      transition-transform duration-[400ms] ease-out delay-100
+                      text-white font-bold text-sm tracking-wide drop-shadow-lg
+                      transform translate-y-2 group-hover:translate-y-0
+                      transition-transform duration-400 delay-100
                     ">
-                      <div className="font-bold tracking-wide drop-shadow-lg">
-                        {model.name}
-                      </div>
+                      {model.name}
                     </div>
                   </div>
 
-                  {/* Subtle Border Glow for Center Card */}
-                  {isCenter && (
+                  {/* Active Card Glow Effect */}
+                  {isActive && (
                     <div className="
-                      absolute inset-0 rounded-[inherit]
-                      bg-gradient-to-r from-white/10 via-white/5 to-white/10
+                      absolute inset-0 rounded-3xl
+                      bg-gradient-to-r from-white/20 via-white/10 to-white/20
                       opacity-60 pointer-events-none
-                      transition-opacity duration-[800ms]
+                      animate-pulse
                     " />
                   )}
                 </div>
                 
-                {/* Enhanced Shadows with Better Blending */}
+                {/* Enhanced Shadow */}
                 <div 
-                  className={`
-                    absolute -bottom-6 left-1/2 -translate-x-1/2 rounded-full blur-xl
-                    transition-all duration-[800ms] ease-[cubic-bezier(0.25,0.46,0.45,0.94)]
-                    ${isCenter 
-                      ? 'w-28 h-8 bg-black/40' 
-                      : 'w-20 h-6 bg-black/25'
-                    }
-                  `}
+                  className="
+                    absolute -bottom-8 left-1/2 -translate-x-1/2 
+                    rounded-full blur-2xl transition-all duration-800
+                  "
+                  style={{
+                    width: isActive ? '120px' : '80px',
+                    height: isActive ? '16px' : '12px',
+                    backgroundColor: 'rgba(0,0,0,0.4)'
+                  }}
                 />
-                
-                {/* Additional ambient shadow for center card */}
-                {isCenter && (
-                  <div className="
-                    absolute -bottom-2 left-1/2 -translate-x-1/2 
-                    w-32 h-4 bg-black/15 rounded-full blur-lg
-                    transition-all duration-[800ms]
-                  " />
-                )}
               </div>
             </div>
           );
         })}
       </div>
 
-      {/* Enhanced Collection Indicator Dots */}
-      <div className="absolute -bottom-8 left-1/2 -translate-x-1/2 flex space-x-3">
+      {/* Collection Navigation Dots */}
+      <div className="absolute -bottom-12 left-1/2 -translate-x-1/2 flex space-x-3">
         {collectionImages.map((_, index) => (
           <button
             key={index}
             onClick={() => onCardClick(index)}
             className={`
-              h-3 rounded-full transition-all duration-[600ms] ease-[cubic-bezier(0.25,0.46,0.45,0.94)]
-              hover:scale-125 transform-gpu will-change-transform
+              h-3 rounded-full transition-all duration-600 ease-out
+              hover:scale-125 transform-gpu
               ${index === currentState 
                 ? 'bg-white w-8 shadow-lg shadow-white/30' 
-                : 'bg-white/50 w-3 hover:bg-white/70'
+                : 'bg-white/40 w-3 hover:bg-white/60'
               }
             `}
           />
         ))}
       </div>
 
-      {/* Floating Animation Elements */}
-      <div className="absolute inset-0 pointer-events-none">
-        {[...Array(6)].map((_, i) => (
+      {/* Card Index Indicators */}
+      <div className="absolute -bottom-6 left-1/2 -translate-x-1/2 flex space-x-2">
+        {currentCollection.models.map((_, index) => (
+          <div
+            key={index}
+            className={`
+              w-2 h-2 rounded-full transition-all duration-400
+              ${index === activeCardIndex ? 'bg-white/80 scale-125' : 'bg-white/30'}
+            `}
+          />
+        ))}
+      </div>
+
+      {/* Floating Particles */}
+      <div className="absolute inset-0 pointer-events-none overflow-hidden">
+        {[...Array(8)].map((_, i) => (
           <div
             key={i}
             className="
-              absolute w-2 h-2 bg-white/20 rounded-full
+              absolute w-1 h-1 bg-white/30 rounded-full
               animate-pulse
             "
             style={{
-              left: `${20 + i * 15}%`,
-              top: `${30 + (i % 3) * 20}%`,
-              animationDelay: `${i * 800}ms`,
+              left: `${15 + i * 12}%`,
+              top: `${25 + (i % 4) * 15}%`,
+              animationDelay: `${i * 600}ms`,
               animationDuration: '3s'
             }}
           />
